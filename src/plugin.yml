@@ -1,0 +1,9 @@
+name: JServerInformation
+description: A claim plugin designed for Project Poseidon
+main: com.johnymuffin.serverinformation.beta.JServerInformation
+version: 1.0.0
+authors:
+  - JohnyMuffin
+softdepend:
+  - Fundamentals
+  - JWebAPI
