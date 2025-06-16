@@ -1,9 +1,11 @@
 package com.johnymuffin.serverinformation.beta;
 
 import com.johnymuffin.serverinformation.beta.routes.api.v1.JServerInformationChatRoute;
+import com.johnymuffin.serverinformation.beta.routes.api.v1.JServerInformationExecuteCommand;
 import com.johnymuffin.serverinformation.beta.routes.api.v1.JServerInformationPlayersRoute;
 import com.johnymuffin.beta.webapi.JWebAPI;
 import com.johnymuffin.beta.webapi.event.JWebAPIDisable;
+import com.johnymuffin.serverinformation.beta.routes.api.v1.JServerInformationTPSRoute;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -29,6 +31,10 @@ public class JServerInformation extends JavaPlugin implements Listener {
 
     private boolean apiEnabled = false;
 
+    private CommandSender commandSender;
+
+    private JServerInformationConfig config;
+
     @Override
     public void onEnable() {
         plugin = this;
@@ -37,13 +43,18 @@ public class JServerInformation extends JavaPlugin implements Listener {
         pluginName = pdf.getName();
         log.info("[" + pluginName + "] Is Loading, Version: " + pdf.getVersion());
 
-        //Check for Fundamentals
+        //Load config
+        config = new JServerInformationConfig(new java.io.File(plugin.getDataFolder(), "config.yml"));
+
+        //Check for JWebAPI
         if (Bukkit.getPluginManager().getPlugin("JWebAPI") == null) {
             logger(Level.SEVERE, "JWebAPI is not installed, disabling plugin.");
             errored = true;
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
+
+        commandSender = new CommandSender(Bukkit.getServer());
 
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
@@ -61,6 +72,11 @@ public class JServerInformation extends JavaPlugin implements Listener {
                 JWebAPI jWebAPI = (JWebAPI) Bukkit.getPluginManager().getPlugin("JWebAPI");
                 jWebAPI.registerRoute(JServerInformationPlayersRoute.class, "/api/v1/server/players");
                 jWebAPI.registerRoute(JServerInformationChatRoute.class, "/api/v1/server/chat");
+                jWebAPI.registerRoute(JServerInformationTPSRoute.class, "/api/v1/server/tps");
+                // Only register the execute command route if enabled in the config
+                if(config.getConfigBoolean("api.command.execute.enable")) {
+                    jWebAPI.registerRoute(JServerInformationExecuteCommand.class, "/api/v1/server/execute");
+                }
                 apiEnabled = true;
                 logger(Level.INFO, "Registered API routes");
             }
@@ -95,6 +111,14 @@ public class JServerInformation extends JavaPlugin implements Listener {
             }
             apiEnabled = false;
         }
+    }
+
+    public CommandSender getCommandSender() {
+        return commandSender;
+    }
+
+    public JServerInformationConfig getConfig() {
+        return config;
     }
 
     public void logger(Level level, String message) {

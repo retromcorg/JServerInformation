@@ -12,11 +12,23 @@ public class JServerInformationConfig extends Configuration {
         this.reload();
     }
 
+    private String generateRandomKey() {
+        StringBuilder key = new StringBuilder();
+        for (int i = 0; i < 16; i++) {
+            int randomChar = (int) (Math.random() * 26) + 97; // a-z
+            key.append((char) randomChar);
+        }
+        return key.toString();
+    }
+
     private void write() {
         //Main
         generateConfigOption("config-version", 1);
 
-        //Setting
+        //Execution Command Settings
+        generateConfigOption("api.command.execute.info", "This setting is used to enable or disable the execution of commands via the API.");
+        generateConfigOption("api.command.execute.enable", false);
+        generateConfigOption("api.command.execute.key", generateRandomKey());
 
 
     }
