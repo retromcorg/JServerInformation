@@ -1,11 +1,11 @@
 package com.johnymuffin.serverinformation.beta;
 
-import com.johnymuffin.serverinformation.beta.routes.api.v1.JServerInformationChatRoute;
-import com.johnymuffin.serverinformation.beta.routes.api.v1.JServerInformationExecuteCommand;
-import com.johnymuffin.serverinformation.beta.routes.api.v1.JServerInformationPlayersRoute;
+import com.johnymuffin.serverinformation.beta.routes.api.v1.ChatRoute;
+import com.johnymuffin.serverinformation.beta.routes.api.v1.ExecuteCommand;
+import com.johnymuffin.serverinformation.beta.routes.api.v1.PlayersRoute;
 import com.johnymuffin.beta.webapi.JWebAPI;
 import com.johnymuffin.beta.webapi.event.JWebAPIDisable;
-import com.johnymuffin.serverinformation.beta.routes.api.v1.JServerInformationTPSRoute;
+import com.johnymuffin.serverinformation.beta.routes.api.v1.TPSRoute;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -33,7 +33,7 @@ public class JServerInformation extends JavaPlugin implements Listener {
 
     private CommandSender commandSender;
 
-    private JServerInformationConfig config;
+    private Config config;
 
     @Override
     public void onEnable() {
@@ -44,7 +44,7 @@ public class JServerInformation extends JavaPlugin implements Listener {
         log.info("[" + pluginName + "] Is Loading, Version: " + pdf.getVersion());
 
         //Load config
-        config = new JServerInformationConfig(new java.io.File(plugin.getDataFolder(), "config.yml"));
+        config = new Config(new java.io.File(plugin.getDataFolder(), "config.yml"));
 
         //Check for JWebAPI
         if (Bukkit.getPluginManager().getPlugin("JWebAPI") == null) {
@@ -70,12 +70,12 @@ public class JServerInformation extends JavaPlugin implements Listener {
 
                 //Register API routes
                 JWebAPI jWebAPI = (JWebAPI) Bukkit.getPluginManager().getPlugin("JWebAPI");
-                jWebAPI.registerRoute(JServerInformationPlayersRoute.class, "/api/v1/server/players");
-                jWebAPI.registerRoute(JServerInformationChatRoute.class, "/api/v1/server/chat");
-                jWebAPI.registerRoute(JServerInformationTPSRoute.class, "/api/v1/server/tps");
+                jWebAPI.registerRoute(PlayersRoute.class, "/api/v1/server/players");
+                jWebAPI.registerRoute(ChatRoute.class, "/api/v1/server/chat");
+                jWebAPI.registerRoute(TPSRoute.class, "/api/v1/server/tps");
                 // Only register the execute command route if enabled in the config
                 if(config.getConfigBoolean("api.command.execute.enable")) {
-                    jWebAPI.registerRoute(JServerInformationExecuteCommand.class, "/api/v1/server/execute");
+                    jWebAPI.registerRoute(ExecuteCommand.class, "/api/v1/server/execute");
                 }
                 apiEnabled = true;
                 logger(Level.INFO, "Registered API routes");
@@ -102,8 +102,8 @@ public class JServerInformation extends JavaPlugin implements Listener {
         if (apiEnabled) {
             try {
                 JWebAPI jWebAPI = (JWebAPI) Bukkit.getPluginManager().getPlugin("JWebAPI");
-                jWebAPI.unregisterServlets(JServerInformationChatRoute.class);
-                jWebAPI.unregisterServlets(JServerInformationPlayersRoute.class);
+                jWebAPI.unregisterServlets(ChatRoute.class);
+                jWebAPI.unregisterServlets(PlayersRoute.class);
                 logger(Level.INFO, "Unregistered API routes");
             } catch (Exception e) {
                 logger(Level.WARNING, "Failed to unregister API routes");
@@ -117,7 +117,7 @@ public class JServerInformation extends JavaPlugin implements Listener {
         return commandSender;
     }
 
-    public JServerInformationConfig getConfig() {
+    public Config getConfig() {
         return config;
     }
 

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JServerInformationChatRoute extends JServerInformationRoute {
+public class ChatRoute extends JServerInformationRoute {
 
     protected void doGet(HttpServletRequest request, final HttpServletResponse response) throws IOException {
         //Get StartUnixTime from request parameter if it exists

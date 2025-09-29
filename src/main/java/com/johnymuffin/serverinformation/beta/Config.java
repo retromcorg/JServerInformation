@@ -5,9 +5,9 @@ import org.bukkit.util.config.Configuration;
 import java.io.File;
 
 
-public class JServerInformationConfig extends Configuration {
+public class Config extends Configuration {
 
-    public JServerInformationConfig(File settingsFile) {
+    public Config(File settingsFile) {
         super(settingsFile);
         this.reload();
     }

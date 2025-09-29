@@ -3,8 +3,6 @@ package com.johnymuffin.serverinformation.beta.routes.api.v1;
 import com.johnymuffin.serverinformation.beta.CommandSender;
 import com.johnymuffin.serverinformation.beta.routes.JServerInformationRoute;
 import org.bukkit.Bukkit;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -16,7 +14,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
-public class JServerInformationExecuteCommand extends JServerInformationRoute {
+public class ExecuteCommand extends JServerInformationRoute {
 
 
     @Override

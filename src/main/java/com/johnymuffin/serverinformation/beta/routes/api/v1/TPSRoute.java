@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class JServerInformationTPSRoute extends JServerInformationRoute {
+public class TPSRoute extends JServerInformationRoute {
 
     @Override
     protected void doGet(HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {

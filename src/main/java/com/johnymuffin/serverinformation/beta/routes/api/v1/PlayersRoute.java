@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JServerInformationPlayersRoute extends JServerInformationRoute {
+public class PlayersRoute extends JServerInformationRoute {
 
     protected void doGet(HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         //Change to async
