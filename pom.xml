@@ -6,8 +6,8 @@
 
     <groupId>org.retromc</groupId>
     <artifactId>JServerInformation</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
-    <description>A template for creating plugins for the Poseidon server software.</description>
+    <version>1.0.2</version>
+    <description>A plugin that provides server information via a web API.</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
