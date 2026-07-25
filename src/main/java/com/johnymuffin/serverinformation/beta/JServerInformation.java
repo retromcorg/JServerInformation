@@ -2,6 +2,8 @@ package com.johnymuffin.serverinformation.beta;
 
 import com.johnymuffin.serverinformation.beta.routes.api.v1.ChatRoute;
 import com.johnymuffin.serverinformation.beta.routes.api.v1.ExecuteCommand;
+import com.johnymuffin.serverinformation.beta.routes.api.v1.PlayerUUIDRoute;
+import com.johnymuffin.serverinformation.beta.routes.api.v1.PlayerUsernameRoute;
 import com.johnymuffin.serverinformation.beta.routes.api.v1.PlayersRoute;
 import com.johnymuffin.beta.webapi.JWebAPI;
 import com.johnymuffin.beta.webapi.event.JWebAPIDisable;
@@ -73,6 +75,8 @@ public class JServerInformation extends JavaPlugin implements Listener {
                 jWebAPI.registerRoute(PlayersRoute.class, "/api/v1/server/players");
                 jWebAPI.registerRoute(ChatRoute.class, "/api/v1/server/chat");
                 jWebAPI.registerRoute(TPSRoute.class, "/api/v1/server/tps");
+                jWebAPI.registerRoute(PlayerUUIDRoute.class, "/api/v1/server/player/uuid");
+                jWebAPI.registerRoute(PlayerUsernameRoute.class, "/api/v1/server/player/username");
                 // Only register the execute command route if enabled in the config
                 if(config.getConfigBoolean("api.command.execute.enable")) {
                     jWebAPI.registerRoute(ExecuteCommand.class, "/api/v1/server/execute");
@@ -104,6 +108,12 @@ public class JServerInformation extends JavaPlugin implements Listener {
                 JWebAPI jWebAPI = (JWebAPI) Bukkit.getPluginManager().getPlugin("JWebAPI");
                 jWebAPI.unregisterServlets(ChatRoute.class);
                 jWebAPI.unregisterServlets(PlayersRoute.class);
+                jWebAPI.unregisterServlets(TPSRoute.class);
+                jWebAPI.unregisterServlets(PlayerUUIDRoute.class);
+                jWebAPI.unregisterServlets(PlayerUsernameRoute.class);
+                if(config.getConfigBoolean("api.command.execute.enable")) {
+                    jWebAPI.unregisterServlets(ExecuteCommand.class);
+                }
                 logger(Level.INFO, "Unregistered API routes");
             } catch (Exception e) {
                 logger(Level.WARNING, "Failed to unregister API routes");
