@@ -7,3 +7,13 @@ authors:
 softdepend:
   - Fundamentals
   - JWebAPI
+commands:
+  hidecoords:
+    description: Hide your coordinates from the server information API.
+    usage: /<command> [on|off|status]
+    aliases:
+      - hidecoordinates
+permissions:
+  jserverinformation.hidecoords:
+    description: Allows players to hide their coordinates from the server information API.
+    default: true

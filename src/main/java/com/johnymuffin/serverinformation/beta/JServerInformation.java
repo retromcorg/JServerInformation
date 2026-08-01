@@ -1,5 +1,6 @@
 package com.johnymuffin.serverinformation.beta;
 
+import com.johnymuffin.serverinformation.beta.commands.CommandHideCoords;
 import com.johnymuffin.serverinformation.beta.routes.api.v1.ChatRoute;
 import com.johnymuffin.serverinformation.beta.routes.api.v1.ExecuteCommand;
 import com.johnymuffin.serverinformation.beta.routes.api.v1.PlayerUUIDRoute;
@@ -57,6 +58,7 @@ public class JServerInformation extends JavaPlugin implements Listener {
         }
 
         commandSender = new CommandSender(Bukkit.getServer());
+        getCommand("hidecoords").setExecutor(new CommandHideCoords());
 
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {

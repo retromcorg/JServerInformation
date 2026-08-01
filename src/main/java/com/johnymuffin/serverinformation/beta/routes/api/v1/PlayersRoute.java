@@ -2,8 +2,10 @@ package com.johnymuffin.serverinformation.beta.routes.api.v1;
 
 import com.johnymuffin.beta.fundamentals.Fundamentals;
 import com.johnymuffin.beta.fundamentals.player.FundamentalsPlayer;
+import com.johnymuffin.serverinformation.beta.Utility;
 import com.johnymuffin.serverinformation.beta.routes.JServerInformationRoute;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -48,12 +50,18 @@ public class PlayersRoute extends JServerInformationRoute {
                                 continue;
                             }
 
-                            //If player is vanished fake coordinates to 0,0,0
-                            if (fundamentalsPlayer.isVanished()) {
+                            //If player is vanished fake coordinates and world to hide their location
+                            if (fundamentalsPlayer.isVanished() || Utility.isHidingCoordinates(fundamentalsPlayer)) {
+                                World world = Bukkit.getWorlds().get(0);
+                                playerJSON.put("world", world.getName());
+                                playerJSON.put("world_uuid", world.getUID().toString());
+                                playerJSON.put("world_environment", world.getEnvironment().toString());
+
                                 playerJSON.put("x", 0);
                                 playerJSON.put("y", 0);
                                 playerJSON.put("z", 0);
                             }
+
                         }
                         playerList.add(playerJSON);
                     }
